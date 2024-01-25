@@ -18,7 +18,7 @@ import lombok.*;
 @Table(name = "grade")
 public class Grade {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "UUID")
+    @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "id")
     private UUID id;
 
