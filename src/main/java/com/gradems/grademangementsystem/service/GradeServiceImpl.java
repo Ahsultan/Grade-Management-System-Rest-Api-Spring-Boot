@@ -3,58 +3,62 @@ package com.gradems.grademangementsystem.service;
 import java.util.List;
 import java.util.UUID;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.gradems.grademangementsystem.entity.Course;
 import com.gradems.grademangementsystem.entity.Grade;
+import com.gradems.grademangementsystem.entity.Student;
 import com.gradems.grademangementsystem.repository.GradeRepository;
 
+import lombok.AllArgsConstructor;
+
+@AllArgsConstructor
 @Service
 public class GradeServiceImpl implements GradeService {
 
-    @Autowired
     GradeRepository gradeRepository;
+    StudentService studentService;
+    CourseService courseService;
 
     @Override
     public Grade getGrade(UUID studentId, UUID CourseId) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getGrade'");
+        return gradeRepository.findByStudentIdAndCourseId(studentId, CourseId).get();
     }
 
     @Override
     public Grade savGrade(Grade grade, UUID studentId, UUID courseId) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'savGrade'");
+        Student student = studentService.getStudent(studentId);
+        Course course = courseService.getCourse(courseId);
+        grade.setCourse(course);
+        grade.setStudent(student);
+        return gradeRepository.save(grade);
     }
 
     @Override
-    public Grade updatGrade(String score, UUID studentId, UUID courseId) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'updatGrade'");
+    public Grade updatGrade(String score, UUID studentId, UUID courseId) { 
+        Grade grade = getGrade(studentId, courseId); //TODO Test null exception.
+        grade.setScore(score);
+        return gradeRepository.save(grade);
     }
 
     @Override
     public void deleteGrad(UUID studentId, UUID courseId) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'deleteGrad'");
+        gradeRepository.deleteByStudentIdAndCourseId(studentId, courseId);
     }
 
     @Override
     public List<Grade> getStudentGrades(UUID studentId) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getStudentGrades'");
+        return  gradeRepository.findByStudentId(studentId);
     }
 
     @Override
     public List<Grade> getCourseGrades(UUID courseId) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getCourseGrades'");
+        return gradeRepository.findByCourseId(courseId);
     }
 
     @Override
     public List<Grade> getAllGrades() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getAllGrades'");
+        return (List<Grade>)gradeRepository.findAll();
     }
     
 }
