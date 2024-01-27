@@ -31,7 +31,9 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public void deleteCourse(UUID id) {
+        if(getCourse(id) !=  null) {
             courseRepository.deleteById(id);
+        }
     }
 
     @Override

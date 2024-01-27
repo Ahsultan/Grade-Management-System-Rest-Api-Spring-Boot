@@ -30,7 +30,9 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public void deleteStudent(UUID id) {
+        if(getStudent(id) != null){
             studentRepository.deleteById(id);
+        }
     }
 
     @Override
