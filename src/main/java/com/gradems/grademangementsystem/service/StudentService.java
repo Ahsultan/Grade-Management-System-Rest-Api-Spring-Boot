@@ -7,7 +7,7 @@ import com.gradems.grademangementsystem.entity.Student;
 
 public interface StudentService {
     Student getStudent(UUID id);
-    Student savStudent(Student student);
+    Student saveStudent(Student student);
     void deleteStudent(UUID id);
     List<Student> getStudents();
 }

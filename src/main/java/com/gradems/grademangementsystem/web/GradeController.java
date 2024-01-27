@@ -43,12 +43,15 @@ public class GradeController {
 
     @PostMapping("/{studentId}/course/{courseId}")
     public ResponseEntity<Grade> saveGrade(@RequestBody Grade grade, @PathVariable UUID studentId, @PathVariable UUID courseId) {
-        return new ResponseEntity<>(gradeService.savGrade(grade, studentId, courseId), HttpStatus.CREATED);
+        //TODO fix null validation Exception for body
+        //TODO fix uniqe score exception message
+        return new ResponseEntity<>(gradeService.saveGrade(grade, studentId, courseId), HttpStatus.CREATED);
     }
 
     @PutMapping("student/{studentId}/course/{courseId}")
-    public ResponseEntity<Grade> updateGrade(@RequestBody String score, @PathVariable UUID studentId, @PathVariable UUID courseId) {
-        return new ResponseEntity<>(gradeService.updatGrade(score, studentId, courseId), HttpStatus.CREATED);
+    public ResponseEntity<Grade> updateGrade(@RequestBody Grade grade, @PathVariable UUID studentId, @PathVariable UUID courseId) {
+        //TODO Fix data validation request body.
+        return new ResponseEntity<>(gradeService.updatGrade(grade.getScore(), studentId, courseId), HttpStatus.CREATED);
     }
 
     @GetMapping("student/{studentId}")

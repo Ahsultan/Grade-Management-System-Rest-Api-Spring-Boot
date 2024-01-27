@@ -10,18 +10,22 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 import lombok.*;
 
 @Getter
 @Setter
 @Entity
-@Table(name = "grade")
+@Table(name = "grade", uniqueConstraints = {
+    @UniqueConstraint(columnNames = {"student_id", "course_id"})
+})
 public class Grade {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "id")
     private UUID id;
 
+    @NonNull
     @Column(name = "score", nullable = false)
     private String score;
 

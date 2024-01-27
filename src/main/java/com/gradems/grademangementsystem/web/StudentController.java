@@ -36,7 +36,7 @@ public class StudentController {
 
     @PostMapping
     public ResponseEntity<Student> postMethodName(@RequestBody Student student) {
-        return new ResponseEntity<>(studentService.savStudent(student), HttpStatus.CREATED);
+        return new ResponseEntity<>(studentService.saveStudent(student), HttpStatus.CREATED);
     }
 
     @GetMapping("/all")
