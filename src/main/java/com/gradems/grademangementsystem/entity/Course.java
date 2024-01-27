@@ -13,6 +13,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
 @Getter
@@ -25,12 +26,15 @@ public class Course {
     @Column(name = "id")
     private UUID id;
 
+    @NotBlank(message = "Subject can not be blank")
     @Column(name = "subject", nullable = false)
     private String subject;
 
+    @NotBlank(message = "Code can not be blank")
     @Column(name = "code", nullable = false, unique = true)
     private String code;
 
+    @NotBlank(message = "Subject Description can not be blank")
     @Column(name = "description", nullable = false)
     private String description;
 

@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.gradems.grademangementsystem.entity.Student;
 import com.gradems.grademangementsystem.service.StudentService;
 
+import jakarta.validation.Valid;
+
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -34,7 +36,7 @@ public class StudentController {
     }
 
     @PostMapping
-    public ResponseEntity<Student> postMethodName(@RequestBody Student student) {
+    public ResponseEntity<Student> postMethodName(@RequestBody @Valid Student student) {
         return new ResponseEntity<>(studentService.saveStudent(student), HttpStatus.CREATED);
     }
 

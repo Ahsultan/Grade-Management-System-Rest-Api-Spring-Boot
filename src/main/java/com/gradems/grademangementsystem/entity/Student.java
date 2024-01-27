@@ -14,6 +14,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Past;
 import lombok.*;
 
 @Getter
@@ -26,10 +28,12 @@ public class Student {
     @Column(name = "id")
     private UUID id;
 
+    @NotBlank(message = "Name can not be blank")
     @NonNull
     @Column(name = "name", nullable = false)
     private String name;
 
+    @Past(message = "Birth date should be from past")
     @NonNull
     @Column(name = "birth_date", nullable = false)
     private LocalDate birthDate;

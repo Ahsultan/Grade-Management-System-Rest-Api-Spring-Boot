@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.gradems.grademangementsystem.entity.Grade;
 import com.gradems.grademangementsystem.service.GradeService;
 
+import jakarta.validation.Valid;
+
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -42,15 +44,12 @@ public class GradeController {
     }
 
     @PostMapping("/{studentId}/course/{courseId}")
-    public ResponseEntity<Grade> saveGrade(@RequestBody Grade grade, @PathVariable UUID studentId, @PathVariable UUID courseId) {
-        //TODO fix null validation Exception for body
-        //TODO fix uniqe score exception message
+    public ResponseEntity<Grade> saveGrade(@RequestBody @Valid Grade grade, @PathVariable UUID studentId, @PathVariable UUID courseId) {
         return new ResponseEntity<>(gradeService.saveGrade(grade, studentId, courseId), HttpStatus.CREATED);
     }
 
     @PutMapping("student/{studentId}/course/{courseId}")
-    public ResponseEntity<Grade> updateGrade(@RequestBody Grade grade, @PathVariable UUID studentId, @PathVariable UUID courseId) {
-        //TODO Fix data validation request body.
+    public ResponseEntity<Grade> updateGrade(@RequestBody @Valid Grade grade, @PathVariable UUID studentId, @PathVariable UUID courseId) {
         return new ResponseEntity<>(gradeService.updatGrade(grade.getScore(), studentId, courseId), HttpStatus.CREATED);
     }
 

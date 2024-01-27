@@ -25,15 +25,12 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public Student saveStudent(Student student) {
-         //TODO validation of entity or exception to be passed with proper status code
         return studentRepository.save(student);
     }
 
     @Override
     public void deleteStudent(UUID id) {
-        if(getStudent(id) != null){
             studentRepository.deleteById(id);
-        }
     }
 
     @Override

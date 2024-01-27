@@ -26,15 +26,12 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public Course saveCourse(Course course) {
-        //TODO validation of entity or exception to be passed with proper status code
         return courseRepository.save(course);
     }
 
     @Override
     public void deleteCourse(UUID id) {
-        if(getCourse(id) !=  null) {
             courseRepository.deleteById(id);
-        }
     }
 
     @Override

@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.gradems.grademangementsystem.entity.Course;
 import com.gradems.grademangementsystem.service.CourseService;
 
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 
 import java.util.List;
@@ -28,7 +29,7 @@ public class CourseController {
     CourseService courseService;
 
     @PostMapping
-    public ResponseEntity<Course> saveCourse(@RequestBody Course course) {
+    public ResponseEntity<Course> saveCourse(@RequestBody @Valid Course course) {
         return new ResponseEntity<>(courseService.saveCourse(course), HttpStatus.CREATED);
     }
 
