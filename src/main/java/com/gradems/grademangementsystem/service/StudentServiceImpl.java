@@ -7,6 +7,7 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.gradems.grademangementsystem.entity.Course;
 import com.gradems.grademangementsystem.entity.Student;
 import com.gradems.grademangementsystem.exception.NotFoundException;
 import com.gradems.grademangementsystem.repository.StudentRepository;
@@ -38,6 +39,12 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public List<Student> getStudents() {
         return (List<Student>)studentRepository.findAll();
+    }
+
+    @Override
+    public List<Course> getEnrolledCourses(UUID studentId) {
+        Optional<Student> student = studentRepository.findById(studentId);
+        return unwrapStudent(student, studentId).getCourses().stream().toList();
     }
 
     static Student unwrapStudent(Optional<Student> student, UUID id) {

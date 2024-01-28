@@ -3,6 +3,7 @@ package com.gradems.grademangementsystem.service;
 import java.util.List;
 import java.util.UUID;
 
+import com.gradems.grademangementsystem.entity.Course;
 import com.gradems.grademangementsystem.entity.Student;
 
 public interface StudentService {
@@ -10,4 +11,5 @@ public interface StudentService {
     Student saveStudent(Student student);
     void deleteStudent(UUID id);
     List<Student> getStudents();
+    List<Course> getEnrolledCourses(UUID studentId);
 }

@@ -18,14 +18,15 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 import com.gradems.grademangementsystem.exception.ErrorResponse;
 import com.gradems.grademangementsystem.exception.NotFoundException;
+import com.gradems.grademangementsystem.exception.StudentNotEnrolledException;
 
 @RestControllerAdvice
 public class ApplicationExceptionHandler extends ResponseEntityExceptionHandler {
 
-    @ExceptionHandler(NotFoundException.class)
-    public ResponseEntity<String> HandleStudentNotFoundException(NotFoundException ex) {
-        String errorMessage = ex.getMessage();
-        return new ResponseEntity<>(errorMessage, HttpStatus.NOT_FOUND);
+    @ExceptionHandler({StudentNotEnrolledException.class, NotFoundException.class})
+    public ResponseEntity<Object> HandleNotFoundException(StudentNotEnrolledException ex) {
+        ErrorResponse error = new ErrorResponse(Arrays.asList(ex.getMessage()), false);
+        return ResponseEntity.badRequest().body(error);
     }
 
     @ExceptionHandler(EmptyResultDataAccessException.class)

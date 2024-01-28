@@ -10,6 +10,7 @@ import com.gradems.grademangementsystem.entity.Course;
 import com.gradems.grademangementsystem.entity.Grade;
 import com.gradems.grademangementsystem.entity.Student;
 import com.gradems.grademangementsystem.exception.NotFoundException;
+import com.gradems.grademangementsystem.exception.StudentNotEnrolledException;
 import com.gradems.grademangementsystem.repository.GradeRepository;
 
 import lombok.AllArgsConstructor;
@@ -32,6 +33,11 @@ public class GradeServiceImpl implements GradeService {
     public Grade saveGrade(Grade grade, UUID studentId, UUID courseId) {
         Student student = studentService.getStudent(studentId);
         Course course = courseService.getCourse(courseId);
+        // student.getCourses().contains(course);
+        
+        boolean isCourseEnrolled = student.getCourses().stream().anyMatch( c -> c.getId() == courseId);
+        if(!isCourseEnrolled) throw new StudentNotEnrolledException(studentId, courseId);
+
         grade.setCourse(course);
         grade.setStudent(student);
         return gradeRepository.save(grade);

@@ -4,6 +4,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.gradems.grademangementsystem.entity.Course;
+import com.gradems.grademangementsystem.entity.Student;
 import com.gradems.grademangementsystem.service.CourseService;
 
 import jakarta.validation.Valid;
@@ -19,6 +20,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+
+
 
 
 @AllArgsConstructor
@@ -28,9 +32,20 @@ public class CourseController {
 
     CourseService courseService;
 
+    @GetMapping("/student-enrolled/{courseId}")
+    public ResponseEntity<List<Student>> getEnrolledStudents(@PathVariable UUID courseId) {
+        return ResponseEntity.ok().body(courseService.getEnrolledStudents(courseId));
+    }
+    
+
     @PostMapping
     public ResponseEntity<Course> saveCourse(@RequestBody @Valid Course course) {
         return new ResponseEntity<>(courseService.saveCourse(course), HttpStatus.CREATED);
+    }
+
+    @PutMapping("/{id}/student/{sid}")
+    public ResponseEntity<Course> enrollStudent(@PathVariable UUID id, @PathVariable UUID sid) {
+        return ResponseEntity.ok().body(courseService.addStudentToCourse(id, sid));
     }
 
     @GetMapping("/{id}")

@@ -7,6 +7,7 @@ import java.util.UUID;
 import org.springframework.stereotype.Service;
 
 import com.gradems.grademangementsystem.entity.Course;
+import com.gradems.grademangementsystem.entity.Student;
 import com.gradems.grademangementsystem.exception.NotFoundException;
 import com.gradems.grademangementsystem.repository.CourseRepository;
 
@@ -17,6 +18,7 @@ import lombok.AllArgsConstructor;
 public class CourseServiceImpl implements CourseService {
 
     CourseRepository courseRepository;
+    StudentService studentService;
 
     @Override
     public Course getCourse(UUID id) {
@@ -41,7 +43,21 @@ public class CourseServiceImpl implements CourseService {
         return (List<Course>)courseRepository.findAll();
     }
 
-    static Course unwrapCourse(Optional<Course> course, UUID id) {
+    @Override
+    public Course addStudentToCourse(UUID courseId, UUID studentId) {
+        Student student = studentService.getStudent(studentId);
+        Course course = getCourse(courseId);
+        course.getStudents().add(student);
+        return courseRepository.save(course);
+    }
+
+    @Override
+    public List<Student> getEnrolledStudents(UUID courseId) {
+        Optional<Course> course = courseRepository.findById(courseId);
+        return unwrapCourse(course, courseId).getStudents().stream().toList();
+    }
+
+    private Course unwrapCourse(Optional<Course> course, UUID id) {
         if(course.isPresent()){
             return course.get();
         } else {

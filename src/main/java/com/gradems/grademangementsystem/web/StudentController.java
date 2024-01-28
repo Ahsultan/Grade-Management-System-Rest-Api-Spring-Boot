@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.gradems.grademangementsystem.entity.Course;
 import com.gradems.grademangementsystem.entity.Student;
 import com.gradems.grademangementsystem.service.StudentService;
 
@@ -49,6 +50,11 @@ public class StudentController {
     public ResponseEntity<HttpStatus> deleteStudent(@PathVariable UUID id) {
         studentService.deleteStudent(id);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping("/course-enrolled/{studentId}")
+    public ResponseEntity<List<Course>> getEnrolledCourses(@PathVariable UUID studentId) {
+        return ResponseEntity.ok().body(studentService.getEnrolledCourses(studentId));
     }
     
     
