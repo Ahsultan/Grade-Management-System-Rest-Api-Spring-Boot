@@ -1,12 +1,12 @@
 package com.gradems.grademangementsystem.service;
 
 import java.util.Optional;
-import java.util.UUID;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.gradems.grademangementsystem.entity.User;
-import com.gradems.grademangementsystem.exception.NotFoundException;
+import com.gradems.grademangementsystem.exception.EntityNotFoundException;
 import com.gradems.grademangementsystem.repository.UserRepository;
 
 import lombok.AllArgsConstructor;
@@ -16,6 +16,7 @@ import lombok.AllArgsConstructor;
 public class UserServiceImpl implements UserService {
 
     UserRepository userRepository;
+    BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Override
     public User getUserById(String id) {
@@ -24,11 +25,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getUserByUserName(String userName) {
-        return unwrapUser(userRepository.findByUserName(userName), userName);
+        return unwrapUser(userRepository.findByUsername(userName), userName);
     }
 
     @Override
     public User saveUser(User user) {
+        user.setPassWord(bCryptPasswordEncoder.encode(user.getPassWord()));
         return userRepository.save(user);
     }
 
@@ -36,7 +38,7 @@ public class UserServiceImpl implements UserService {
         if(user.isPresent()){
             return user.get();
         } else {
-            throw new RuntimeException();
+            throw new EntityNotFoundException(id, User.class);
         }
     }
 }

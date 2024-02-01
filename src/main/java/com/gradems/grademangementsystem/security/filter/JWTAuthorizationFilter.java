@@ -1,6 +1,7 @@
 package com.gradems.grademangementsystem.security.filter;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -34,7 +35,7 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
                 String user = JWT.require(Algorithm.HMAC512(SecurityConstants.SECRET_KEY))
                 .build().verify(token).getSubject();
 
-                Authentication authentication = new UsernamePasswordAuthenticationToken(user, null, Arrays.asList(null));
+                Authentication authentication = new UsernamePasswordAuthenticationToken(user, null, new ArrayList<>());
                 SecurityContextHolder.getContext().setAuthentication(authentication);
                 filterChain.doFilter(request, response);
     }
